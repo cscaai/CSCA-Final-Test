@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSCA Mathematics Final Examination (Full 48 Questions)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<!-- MathJax for Mathematical LaTeX typography -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  :root {
+    --ink: #0F172A;
+    --ink-soft: #475569;
+    --canvas: #F8FAFC;
+    --card: #FFFFFF;
+    --line: #E2E8F0;
+
+    /* Primary Accent */
+    --primary: #059669;
+    --primary-dark: #047857;
+    --primary-light: #10B981;
+    --primary-tint: #ECFDF5;
+    --primary-glow: rgba(16, 185, 129, 0.28);
+
+    /* Electric Blue for Timer & Progress */
+    --timer-blue: #2563EB;
+    --timer-cyan: #06B6D4;
+    --timer-glow: rgba(37, 99, 235, 0.35);
+
+    /* Accent Badges */
+    --brand-orange: #F97316;
+    --mint: #10B981;
+    --amber: #D97706;
+    --amber-tint: #FEF3C7;
+    --crimson: #EF4444;
+    --crimson-tint: #FEE2E2;
+
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-card: 0 16px 40px rgba(15, 23, 42, 0.08);
+    --shadow-soft: 0 4px 18px rgba(15, 23, 42, 0.04);
+
+    --font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; margin: 0; padding: 0; }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  button, input, select { font-family: inherit; }
+  button { appearance: none; border: none; cursor: pointer; background: none; color: inherit; }
+
+  .screen { display: none; min-height: 100vh; position: relative; }
+  .screen.is-active { display: flex; flex-direction: column; }
+
+  /* ============ BRAND LOGO SVG ============ */
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    color: var(--ink);
+    user-select: none;
+    vertical-align: middle;
+  }
+  .brand-logo-white { color: #FFFFFF !important; }
+  .csca-logo-svg {
+    display: block;
+    height: 30px;
+    width: auto;
+  }
+
+  /* ============ LOGO TRANSITION OVERLAY ============ */
+  #transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(circle at center, #0F172A 0%, #090D16 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  #transition-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .transition-brand {
+    transform: scale(0.9);
+    animation: overlayPulse 1.2s ease-in-out infinite alternate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .transition-brand svg {
+    height: 64px;
+    filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.45));
+  }
+  .transition-spinner {
+    width: 46px;
+    height: 46px;
+    border: 4px solid rgba(255, 255, 255, 0.12);
+    border-top-color: var(--timer-cyan);
+    border-right-color: var(--brand-orange);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+  }
+  .transition-text {
+    font-family: var(--font-mono);
+    color: #93C5FD;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  @keyframes overlayPulse {
+    0% { transform: scale(0.94); opacity: 0.9; }
+    100% { transform: scale(1.05); opacity: 1; }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ============ BRIGHT, ENERGETIC INTRO SCREEN ============ */
+  #screen-entry {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+    min-height: 100vh;
+    background: 
+      radial-gradient(circle at 18% 22%, rgba(56, 189, 248, 0.42) 0%, transparent 48%),
+      radial-gradient(circle at 82% 78%, rgba(249, 115, 22, 0.30) 0%, transparent 50%),
+      radial-gradient(circle at 50% 12%, rgba(16, 185, 129, 0.35) 0%, transparent 55%),
+      linear-gradient(135deg, #1E293B 0%, #0F2A3F 45%, #0B332B 80%, #0D281E 100%);
+    overflow: hidden;
+  }
+  #entry-bg-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: auto;
+  }
+
+  /* Floating Mathematical Symbols */
+  .floating-math-symbol {
+    position: absolute;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.22);
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 38px;
+    user-select: none;
+    pointer-events: none;
+    animation: floatAnim 6s ease-in-out infinite alternate;
+  }
+  @keyframes floatAnim {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-22px) rotate(10deg); }
+  }
+
+  .entry-card-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 920px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.85);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .entry-hero-side {
+    background: linear-gradient(145deg, #064E3B 0%, #0F172A 70%, #1E1B4B 100%);
+    color: #fff;
+    padding: 44px 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .entry-hero-side::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    right: -80px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .entry-pill-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .final-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(90deg, #F97316, #EC4899);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .hero-timer-pill {
+    background: rgba(37, 99, 235, 0.3);
+    border: 1px solid rgba(147, 197, 253, 0.4);
+    color: #93C5FD;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 999px;
+  }
+
+  .entry-hero-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 18px 0 10px;
+    background: linear-gradient(135deg, #FFFFFF 40%, #6EE7B7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .entry-hero-desc {
+    color: #CBD5E1;
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .topic-tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .topic-pill {
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #E2E8F0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .entry-form-side {
+    padding: 44px 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #FFFFFF;
+  }
+  .entry-form-side h2 {
+    font-family: var(--font-display);
+    font-size: 23px;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .entry-form-side p {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+  }
+  .field select, .field input {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--line);
+    font-size: 15px;
+    color: var(--ink);
+    background: #F8FAFC;
+    transition: all .15s ease;
+  }
+  .field select:focus-visible, .field input:focus-visible {
+    outline: none;
+    border-color: var(--timer-blue);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+    background: #fff;
+  }
+
+  .btn {
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+    padding: 14px 22px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all .15s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: #fff;
+    box-shadow: 0 8px 24px var(--primary-glow);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  }
+  .btn-blue {
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    color: #fff;
+    box-shadow: 0 8px 24px var(--timer-glow);
+  }
+  .btn-blue:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  }
+  .btn-ghost { background: transparent; color: var(--ink-soft); border: 1.5px solid var(--line); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--primary); color: var(--primary-dark); background: var(--primary-tint); }
+
+  /* ============ EXAM INTERFACE (ELECTRIC BLUE PROGRESS) ============ */
+  .timer-track {
+    height: 7px;
+    width: 100%;
+    background: #1E293B;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .timer-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #38BDF8 0%, #2563EB 70%, #1D4ED8 100%);
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
+    transition: width 1s linear;
+  }
+  .timer-track.critical .timer-fill {
+    background: linear-gradient(90deg, #FB7185, #EF4444);
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.8);
+  }
+
+  .exam-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    background: #0B1329;
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  }
+  .exam-header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .exam-header-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: .01em;
+  }
+  .exam-header-title small {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 12px;
+    color: #94A3B8;
+    margin-top: 2px;
+  }
+
+  .timer-display {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 18px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(6, 182, 212, 0.2));
+    border: 1.5px solid rgba(56, 189, 248, 0.6);
+    color: #38BDF8;
+    padding: 7px 18px;
+    border-radius: 999px;
+    letter-spacing: .04em;
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+  }
+  .timer-display.critical {
+    border-color: rgba(239, 68, 68, 0.8);
+    background: rgba(239, 68, 68, 0.25);
+    color: #FCA5A5;
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.4);
+  }
+
+  .exam-body {
+    flex: 1;
+    display: flex;
+    gap: 28px;
+    padding: 24px 28px 40px;
+    max-width: 1260px;
+    width: 100%;
+    margin: 0 auto;
+    align-items: flex-start;
+  }
+
+  .sidebar {
+    width: 290px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 24px;
+  }
+  .student-pill-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    box-shadow: var(--shadow-soft);
+  }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--primary-tint); color: var(--primary-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-family: var(--font-display);
+    border: 1.5px solid #A7F3D0;
+  }
+  .student-card-info .name { font-weight: 700; font-size: 14px; color: var(--ink); }
+  .student-card-info .sub { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+
+  .grid-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-soft);
+  }
+  .grid-header {
+    display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;
+  }
+  .grid-header .label { font-weight: 800; font-size: 13px; }
+  .grid-header .count { font-family: var(--font-mono); font-size: 12px; color: var(--primary-dark); font-weight: 700; }
+
+  .q-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .q-cell {
+    aspect-ratio: 1/1;
+    border-radius: 6px;
+    border: 1.5px solid var(--line);
+    background: #FBFCFE;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 11.5px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    transition: all .12s ease;
+  }
+  .q-cell:hover { border-color: var(--primary); color: var(--primary-dark); }
+  .q-cell.answered { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .q-cell.marked::after {
+    content: ''; position: absolute; top: -2px; right: -2px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--brand-orange); border: 1.5px solid #fff;
+  }
+  .q-cell.current {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+    border-color: var(--timer-blue);
+    font-weight: 800;
+  }
+
+  .question-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .question-nav { display: flex; align-items: center; justify-content: space-between; }
+  .question-counter {
+    font-family: var(--font-mono); font-weight: 700; font-size: 13px;
+    color: var(--primary-dark); background: var(--primary-tint);
+    border: 1px solid #A7F3D0; padding: 7px 16px; border-radius: 999px;
+  }
+
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 34px;
+    box-shadow: var(--shadow-card);
+  }
+  .topic-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--timer-blue); background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    padding: 4px 10px; border-radius: 6px; margin-bottom: 16px;
+  }
+  .question-text {
+    font-size: 17.5px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .options-list { display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+  .option-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 15px 18px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--line);
+    background: #FBFCFE;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all .14s ease;
+  }
+  .option-item:hover { border-color: var(--primary); background: #F0FDF4; }
+  .option-item.selected {
+    border-color: var(--primary);
+    background: var(--primary-tint);
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+  .option-radio {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; background: #fff;
+  }
+  .option-item.selected .option-radio { border-color: var(--primary); background: var(--primary); }
+  .option-radio::after {
+    content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff;
+    opacity: 0; transform: scale(0); transition: all .12s ease;
+  }
+  .option-item.selected .option-radio::after { opacity: 1; transform: scale(1); }
+
+  .question-actions {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 22px; border-top: 1px solid var(--line);
+  }
+
+  /* ============ IN-APP BOTTOM NOTIFICATION SHEET FOR SUBMISSION ============ */
+  .toast-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .toast-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .bottom-submit-card {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.35);
+    border: 1.5px solid var(--line);
+    width: 100%;
+    max-width: 540px;
+    padding: 24px 28px;
+    transform: translateY(40px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .toast-backdrop.is-open .bottom-submit-card {
+    transform: translateY(0);
+  }
+  .submit-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .submit-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FEF3C7;
+    color: #D97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .submit-card-header h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .submit-card-header p {
+    margin: 3px 0 0;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .submit-card-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  /* ============ OUTRO / RESULTS SCREEN ============ */
+  #screen-outro {
+    align-items: center;
+    padding: 40px 20px 70px;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .outro-card {
+    width: 100%;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+    padding: 38px;
+    margin-bottom: 24px;
+  }
+  .score-header { text-align: center; margin-bottom: 28px; }
+  .score-header h2 { font-family: var(--font-display); font-size: 28px; font-weight: 800; margin: 12px 0 6px; }
+  
+  .score-badge {
+    display: inline-block;
+    padding: 7px 22px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 14px;
+    font-family: var(--font-mono);
+    letter-spacing: .03em;
+    white-space: nowrap;
+  }
+  .score-badge.tier-good { background: var(--primary-tint); color: var(--primary-dark); border: 1.5px solid #A7F3D0; }
+  .score-badge.tier-average { background: var(--amber-tint); color: #B45309; border: 1.5px solid #FDE68A; }
+  .score-badge.tier-poor { background: var(--crimson-tint); color: var(--crimson); border: 1.5px solid #FECACA; }
+
+  .score-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-bottom: 28px; text-align: center;
+  }
+  .stat-box {
+    background: #F8FAFC; border: 1px solid var(--line);
+    padding: 16px 10px; border-radius: var(--radius-md);
+  }
+  .stat-val {
+    font-family: var(--font-mono);
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .stat-lbl { font-size: 12px; color: var(--ink-soft); margin-top: 4px; font-weight: 600; }
+
+  .action-buttons-row {
+    display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .review-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin: 0 0 20px; }
+  .review-list { display: flex; flex-direction: column; gap: 18px; }
+  .review-item {
+    background: #FBFCFE; border: 1px solid var(--line);
+    border-radius: var(--radius-md); padding: 22px;
+  }
+  .review-item.is-correct { border-left: 5px solid var(--primary); }
+  .review-item.is-incorrect { border-left: 5px solid var(--crimson); }
+  .review-item.is-skipped { border-left: 5px solid var(--brand-orange); }
+
+  .review-q-num { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+  .review-q-text { font-weight: 600; font-size: 15.5px; margin-bottom: 12px; }
+  .review-ans { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+  .review-ans span { font-weight: 600; }
+  .review-ans.user-ans { color: var(--ink-soft); }
+  .review-ans.correct-ans { color: var(--primary-dark); }
+  .review-exp {
+    margin-top: 12px; padding: 14px 16px; border-radius: 6px;
+    font-size: 13.5px; color: #334155; line-height: 1.55;
+    background: #F1F5F9; border: 1px dashed var(--line);
+  }
+
+  /* ============ PRETTY REPORT CARD & HIGHLIGHTED LOGO ============ */
+  @media print {
+    body * { visibility: hidden; }
+    #printable-report-modal, #printable-report-modal * { visibility: visible; }
+    #printable-report-modal {
+      position: absolute; left: 0; top: 0; width: 100%;
+      background: #fff; padding: 0; margin: 0; display: block !important;
+    }
+    .no-print { display: none !important; }
+  }
+
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0; z-index: 10000;
+    background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 20px;
+    overflow-y: auto;
+  }
+  .modal-backdrop.is-open { display: flex; }
+  
+  /* PRETTY ORNATE REPORT CARD BORDER */
+  .report-sheet {
+    background: #FFFFFF;
+    border-radius: 22px;
+    max-width: 780px;
+    width: 100%;
+    padding: 42px 46px;
+    box-shadow: 0 30px 75px rgba(15, 23, 42, 0.35);
+    border: 3px solid #059669;
+    outline: 6px solid #ECFDF5;
+    outline-offset: -12px;
+    position: relative;
+  }
+  
+  .report-sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #CBD5E1;
+    padding-bottom: 22px;
+    margin-bottom: 24px;
+  }
+  
+  /* HIGHLIGHTED LOGO CONTAINER IN REPORT CARD */
+  .report-logo-highlight {
+    background: linear-gradient(135deg, #0F172A 0%, #064E3B 100%);
+    padding: 10px 18px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(6, 78, 59, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .report-meta-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+    background: #F8FAFC; border: 1.5px solid var(--line); border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 24px;
+  }
+  .report-meta-cell label {
+    display: block; font-size: 11px; text-transform: uppercase;
+    font-weight: 700; color: var(--ink-soft); font-family: var(--font-mono);
+  }
+  .report-meta-cell div { font-size: 15px; font-weight: 800; color: var(--ink); margin-top: 4px; }
+  
+  .report-breakdown-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 24px;
+  }
+  .report-breakdown-table th, .report-breakdown-table td {
+    padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13px;
+  }
+  .report-breakdown-table th { background: #F1F5F9; font-weight: 700; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 860px) {
+    .entry-card-container { grid-template-columns: 1fr; }
+    .exam-body { flex-direction: column; padding: 16px; }
+    .sidebar { width: 100%; position: static; }
+    .score-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ CSCA LOGO TRANSITION OVERLAY ============ -->
+  <div id="transition-overlay">
+    <div class="transition-brand">
+      <svg viewBox="0 0 108 30" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="23" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" letter-spacing="-0.03em">csca<tspan fill="#F97316">.</tspan>ai</text>
+      </svg>
+      <div class="transition-spinner"></div>
+      <div class="transition-text" id="transition-status-text">INITIALIZING ASSESSMENT</div>
+    </div>
+  </div>
+
+  <!-- ============ ENTRY SCREEN: FRESH, AIRY & ENERGETIC ============ -->
+  <div id="screen-entry" class="screen is-active">
+    <canvas id="entry-bg-canvas"></canvas>
+
+    <!-- Floating Math Glyphs -->
+    <div class="floating-math-symbol" style="top:10%; left:8%;">$\int$</div>
+    <div class="floating-math-symbol" style="bottom:15%; left:10%;">$\sin^2\alpha$</div>
+    <div class="floating-math-symbol" style="top:12%; right:8%;">$\log_a x$</div>
+    <div class="floating-math-symbol" style="bottom:12%; right:12%;">$\sum_{i=1}^n$</div>
+
+    <div class="entry-card-container">
+      <!-- Left Hero Column -->
+      <div class="entry-hero-side">
+        <div>
+          <div class="entry-pill-row">
+            <span class="final-badge">CSCA OFFICIAL FINALS</span>
+            <span class="hero-timer-pill">⏱ 60 Mins • 48 Questions</span>
+          </div>
+          <h1 class="entry-hero-title">Mathematics Final Examination</h1>
+          <p class="entry-hero-desc">
+            A comprehensive, standardized final examination testing mastery across Sets, Functions, Elementary Exp/Log, Trigonometric Foundations, and Multi-Angle Identities.
+          </p>
+
+          <div class="topic-tags-grid">
+            <span class="topic-pill">📐 Sets &amp; Intervals</span>
+            <span class="topic-pill">🔍 Function Domains &amp; Inverses</span>
+            <span class="topic-pill">📈 Exponential &amp; Logarithms</span>
+            <span class="topic-pill">🌊 Trig Waves &amp; Periods</span>
+            <span class="topic-pill">⚡ Compound &amp; Double Angles</span>
+          </div>
+        </div>
+
+        <div style="font-size:12px; color:#93C5FD; font-family:var(--font-mono); margin-top:20px;">
+          Standardized Examination • Passing Benchmark: 60%
+        </div>
+      </div>
+
+      <!-- Right Candidate Selection Form -->
+      <div class="entry-form-side">
+        <div class="brand-logo" style="margin-bottom:12px;" aria-label="csca.ai">
+          <svg class="csca-logo-svg" viewBox="0 0 108 30" height="28" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="23" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="800" font-size="26" fill="currentColor" letter-spacing="-0.03em">csca<tspan fill="#F97316">.</tspan>ai</text>
+          </svg>
+        </div>
+        <h2>Candidate Login</h2>
+        <p>Select your verified name below and enter your candidate email to begin the final examination.</p>
+
+        <form id="entry-form" onsubmit="handleStartExam(event)">
+          <div class="field">
+            <label for="student-select">Select Student</label>
+            <select id="student-select" required>
+              <option value="" disabled selected>-- Choose your name --</option>
+              <option value="Kristeena Dhakal">Kristeena Dhakal</option>
+              <option value="Adam Cherubin">Adam Cherubin</option>
+              <option value="Elizaveta">Elizaveta</option>
+              <option value="Shreeyana Adhikari">Shreeyana Adhikari</option>
+              <option value="Haura Ssemakula">Haura Ssemakula</option>
+              <option value="Mambo Magali">Mambo Magali</option>
+              <option value="Sam Tshiyuk">Sam Tshiyuk</option>
+              <option value="Mehola Tshiyuk">Mehola Tshiyuk</option>
+              <option value="Nathanael">Nathanael</option>
+              <option value="Kanam Eliel">Kanam Eliel</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="student-email">Candidate Email</label>
+            <input type="email" id="student-email" placeholder="student@example.com" required>
+          </div>
+
+          <button type="submit" class="btn btn-blue" style="width:100%; margin-top:6px;">
+            Begin Final Examination &rarr;
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EXAM SCREEN (ELECTRIC BLUE PROGRESS) ============ -->
+  <div id="screen-exam" class="screen">
+    <div class="timer-track" id="timer-track">
+      <div class="timer-fill" id="timer-fill"></div>
+    </div>
+
+    <header class="exam-header">
+      <div class="exam-header-left">
+        <div class="brand-logo brand-logo-white" aria-label="csca.ai">
+          <svg class="csca-logo-svg" viewBox="0 0 108 30" height="28" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="23" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="26" fill="currentColor" letter-spacing="-0.03em">csca<tspan fill="#F97316">.</tspan>ai</text>
+          </svg>
+        </div>
+        <div style="border-left:1px solid rgba(255,255,255,0.22); padding-left:16px;">
+          <div class="exam-header-title">CSCA Mathematics Final Examination</div>
+          <small>Standardized Session • 48 Questions • 60 Minutes</small>
+        </div>
+      </div>
+      <div class="timer-display" id="timer-display">60:00</div>
+    </header>
+
+    <main class="exam-body">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="student-pill-card">
+          <div class="avatar" id="student-avatar">KD</div>
+          <div class="student-card-info">
+            <div class="name" id="display-student-name">Candidate Name</div>
+            <div class="sub" id="display-student-email">email@test.com</div>
+          </div>
+        </div>
+
+        <div class="grid-card">
+          <div class="grid-header">
+            <span class="label">Question Navigator</span>
+            <span class="count" id="progress-count">0 / 48 Answered</span>
+          </div>
+          <div class="q-grid" id="q-grid"></div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft); padding:0 4px;">
+          <span>⚪ Unanswered</span>
+          <span>🟢 Answered</span>
+          <span>🟠 Marked</span>
+        </div>
+      </aside>
+
+      <!-- QUESTION CONTAINER -->
+      <section class="question-panel">
+        <div class="question-nav">
+          <div class="question-counter" id="question-counter">Question 1 of 48</div>
+          <button class="btn btn-ghost" id="btn-mark" onclick="toggleMarkQuestion()">🔖 Mark for Review</button>
+        </div>
+
+        <div class="question-card">
+          <span class="topic-tag" id="question-topic">Mathematics — FINALS</span>
+          <div class="question-text" id="question-text">Question prompt will load here...</div>
+          <div class="options-list" id="options-list"></div>
+
+          <div class="question-actions">
+            <button class="btn btn-ghost" id="btn-prev" onclick="navigateQuestion(-1)">&larr; Previous</button>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-ghost" id="btn-next" onclick="navigateQuestion(1)">Next &rarr;</button>
+              <button class="btn btn-primary" onclick="openSubmitToast()">Submit Final Exam</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ IN-APP BOTTOM NOTIFICATION SHEET FOR SUBMISSION ============ -->
+  <div class="toast-backdrop" id="submit-toast-backdrop">
+    <div class="bottom-submit-card">
+      <div class="submit-card-header">
+        <div class="submit-icon-circle">⚠️</div>
+        <div>
+          <h3>Confirm Final Submission</h3>
+          <p id="submit-warning-text">Ready to finalize and submit your assessment?</p>
+        </div>
+      </div>
+      <div class="submit-card-actions">
+        <button class="btn btn-ghost" style="flex:1;" onclick="closeSubmitToast()">Continue Test</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="executeFinalSubmission()">Confirm &amp; Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ OUTRO SCREEN ============ -->
+  <div id="screen-outro" class="screen">
+    <div class="outro-card">
+      <div class="score-header">
+        <div class="brand-logo" style="margin-bottom:12px;" aria-label="csca.ai">
+          <svg class="csca-logo-svg" viewBox="0 0 108 30" height="28" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="23" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="26" fill="currentColor" letter-spacing="-0.03em">csca<tspan fill="#F97316">.</tspan>ai</text>
+          </svg>
+        </div>
+        <div class="score-badge" id="score-badge">Good score</div>
+        <h2>Final Examination Performance Summary</h2>
+        <p style="color:var(--ink-soft); margin:0;">
+          Candidate: <strong id="outro-student-name">Student Name</strong> • <span id="outro-student-email">email@test.com</span>
+        </p>
+      </div>
+
+      <div class="score-stats">
+        <div class="stat-box">
+          <div class="stat-val" id="stat-score">0 / 48</div>
+          <div class="stat-lbl">Final Score</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-pct">0%</div>
+          <div class="stat-lbl">Percentage</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-grade">Good score</div>
+          <div class="stat-lbl">Predicted Tier</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-time">0m 0s</div>
+          <div class="stat-lbl">Time Spent</div>
+        </div>
+      </div>
+
+      <div id="export-status" style="text-align:center; font-size:13px; color:var(--ink-soft); margin-bottom:18px;"></div>
+
+      <div class="action-buttons-row">
+        <button class="btn btn-blue" onclick="openReportModal()">
+          📄 Download Official Report Card
+        </button>
+        <button class="btn btn-ghost" onclick="restartExam()">
+          ↺ Retake Final Examination
+        </button>
+      </div>
+    </div>
+
+    <div class="outro-card">
+      <h3 class="review-title">Detailed Solutions &amp; Pedagogical Insights</h3>
+      <div class="review-list" id="review-list"></div>
+    </div>
+  </div>
+
+  <!-- ============ PRETTY REPORT CARD MODAL WITH HIGHLIGHTED LOGO ============ -->
+  <div class="modal-backdrop" id="printable-report-modal">
+    <div class="report-sheet" id="report-sheet">
+      <div class="report-sheet-header">
+        <div>
+          <!-- HIGHLIGHTED CSCA.AI LOGO -->
+          <div class="report-logo-highlight">
+            <svg class="csca-logo-svg" viewBox="0 0 108 30" height="28" xmlns="http://www.w3.org/2000/svg">
+              <text x="0" y="23" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" letter-spacing="-0.03em">csca<tspan fill="#F97316">.</tspan>ai</text>
+            </svg>
+          </div>
+          <h2 style="font-size:21px; font-weight:800; margin:12px 0 2px;">Official Performance Diagnostic</h2>
+          <span style="font-family:var(--font-mono); font-size:12px; color:var(--primary-dark); font-weight:600;">CSCA Mathematics Finals Verification</span>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--ink-soft);" id="rep-date">2026-03-30</div>
+          <div style="font-size:11px; color:#10B981; font-weight:700; margin-top:4px;">VERIFIED COHORT REPORT</div>
+        </div>
+      </div>
+
+      <div class="report-meta-grid">
+        <div class="report-meta-cell">
+          <label>Candidate Name</label>
+          <div id="rep-name">Kristeena Dhakal</div>
+        </div>
+        <div class="report-meta-cell">
+          <label>Registered Email</label>
+          <div id="rep-email">kristeena@example.com</div>
+        </div>
+        <div class="report-meta-cell">
+          <label>Score &amp; Predicted Tier</label>
+          <div id="rep-score-tier">42 / 48 (88%) — Good score</div>
+        </div>
+        <div class="report-meta-cell">
+          <label>Time Invested</label>
+          <div id="rep-time">48m 12s (Allotted 60m)</div>
+        </div>
+      </div>
+
+      <h4 style="font-size:13px; text-transform:uppercase; font-family:var(--font-mono); letter-spacing:.05em; margin:0 0 10px;">Curriculum Breakdown (Core Domains)</h4>
+      <table class="report-breakdown-table">
+        <thead>
+          <tr>
+            <th>Module Domain</th>
+            <th>Questions</th>
+            <th>Accuracy</th>
+            <th>Proficiency Rating</th>
+          </tr>
+        </thead>
+        <tbody id="report-breakdown-rows"></tbody>
+      </table>
+
+      <div class="no-print" style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+        <button class="btn btn-ghost" onclick="closeReportModal()">Close</button>
+        <button class="btn btn-blue" onclick="window.print()">🖨️ Print / Save as PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ JAVASCRIPT LOGIC ============ -->
+  <script>
+    /* ==========================================================================
+       1. QUESTION BANK: COMPLETE 48 CSCA FINALS QUESTIONS
+       ========================================================================== */
+    const questions = [
+      {
+        id: 1,
+        topic: "Sets: Elements & Sets",
+        question: "Let $A=\\{6,7,8,9,10\\}$ be a set, and $\\Phi$ denote the empty set. Then which of the following statements is correct?",
+        options: [
+          "A. $9\\in A$",
+          "B. $\\{6\\}\\in A$",
+          "C. $6\\subseteq A$",
+          "D. $\\Phi\\in A$"
+        ],
+        correct: 0,
+        explanation: "$9$ is an element of $A$, so $9\\in A$. [Source: CSCA 1.25 Q1]"
+      },
+      {
+        id: 2,
+        topic: "Sets: Union of Intervals",
+        question: "Let $A=\\{x\\mid -2\\le x\\le2\\}$ and $B=\\{x\\mid x>0\\}$ be two sets. Then $A\\cup B=$ ( ).",
+        options: [
+          "A. $\\{x\\mid x\\le-2\\}$",
+          "B. $\\{x \\mid 0 \\lt x \\le 2\\}$",
+          "C. $\\{x\\mid x\\ge-2\\}$",
+          "D. $\\{x\\mid -2\\le x<0\\}$"
+        ],
+        correct: 2,
+        explanation: "$A=[-2,2]$ and $B=(0,\\infty)$, so their union is $[-2,\\infty)$. [Source: CSCA 1.25 Q2]"
+      },
+      {
+        id: 3,
+        topic: "Inequalities: Quadratic Forms",
+        question: "The solution set of the inequality $x^2-x-2>0$ is ( ).",
+        options: [
+          "A. $\\{x\\mid x\\lt -1 \\text{ or } x>2\\}$",
+          "B. $\\{x\\mid -1 \\lt x \\lt 2\\}$",
+          "C. $\\{x\\mid x\\lt -2 \\text{ or } x>-1\\}$",
+          "D. $\\{x\\mid -2 \\lt x \\lt 1\\}$"
+        ],
+        correct: 0,
+        explanation: "Factor $x^2-x-2=(x-2)(x+1)$. The product is positive outside the roots: $x<-1$ or $x>2$. [Source: CSCA 1.25 Q3]"
+      },
+      {
+        id: 4,
+        topic: "Sequences: Arithmetic Progression",
+        question: "Let $\\{a_n\\}$ be an arithmetic sequence, with first term $a_1=2$ and common difference $d=3$. Then $a_{100}=$ ( ).",
+        options: [
+          "A. $299$",
+          "B. $302$",
+          "C. $305$",
+          "D. $298$"
+        ],
+        correct: 0,
+        explanation: "Use $a_n=a_1+(n-1)d$: $a_{100}=2+99(3)=299$. [Source: CSCA 1.25 Q4]"
+      },
+      {
+        id: 5,
+        topic: "Functions: Domain of Combined Radical",
+        question: "The domain of the function $f(x)=\\dfrac{1}{x}+\\sqrt{1-x}$ is ( ).",
+        options: [
+          "A. $(-\\infty,1]$",
+          "B. $(-\\infty,0)\\cup(0,1)$",
+          "C. $(-\\infty,0)\\cup(0,1]$",
+          "D. $[1,+\\infty)$"
+        ],
+        correct: 2,
+        explanation: "We need $x\\ne0$ and $1-x\\ge0$, so $x\\le1$ with $x\\ne0$. [Source: CSCA 1.25 Q5]"
+      },
+      {
+        id: 6,
+        topic: "Geometry: Coordinate Reflection",
+        question: "Let $P(1,2)$ be a point in the rectangular coordinate system. If a point $Q$ together with $P$ are symmetrical about the $x$-axis, then the coordinates of $Q$ are ( ).",
+        options: [
+          "A. $(2,1)$",
+          "B. $(1,-2)$",
+          "C. $(-1,2)$",
+          "D. $(-1,-2)$"
+        ],
+        correct: 1,
+        explanation: "Reflection across the $x$-axis preserves $x$ and inverts the sign of $y$, yielding $Q=(1,-2)$. [Source: CSCA 1.25 Q6]"
+      },
+      {
+        id: 7,
+        topic: "Functions: Parity Properties",
+        question: "About the function $f(x)=x^4+3$, which of the following statements is correct?",
+        options: [
+          "A. $f(x)$ is an odd function.",
+          "B. The graph of $f(x)$ is symmetric about the origin.",
+          "C. $f(x)$ is neither odd nor even.",
+          "D. $f(x)$ is an even function."
+        ],
+        correct: 3,
+        explanation: "$f(-x)=(-x)^4+3=x^4+3=f(x)$, so the function is even. [Source: CSCA 1.25 Q8]"
+      },
+      {
+        id: 8,
+        topic: "Inequalities: Rational Fractions",
+        question: "The solution set of the rational inequality $\\dfrac{2x+1}{x-2}\\le0$ is ( ).",
+        options: [
+          "A. $[-\\frac12,2)$",
+          "B. $(-\\infty,-\\frac12)\\cup(2,+\\infty)$",
+          "C. $[-\\frac12,2]$",
+          "D. $(-\\infty,-\\frac12]$"
+        ],
+        correct: 0,
+        explanation: "The critical values are $-1/2$ and $2$. The fraction is non-positive on $[-1/2, 2)$, excluding the denominator root $2$. [Source: CSCA 1.25 Q12]"
+      },
+      {
+        id: 9,
+        topic: "Analytic Geometry: Slope of Line",
+        question: "If the straight line $l$ passes through the points $A(-2,3)$ and $B(3,1)$, then the slope of $l$ is ( ).",
+        options: [
+          "A. $\\frac25$",
+          "B. $\\frac52$",
+          "C. $-\\frac25$",
+          "D. $-\\frac52$"
+        ],
+        correct: 2,
+        explanation: "The slope $m = \\dfrac{1-3}{3-(-2)}=-\\dfrac{2}{5}$. [Source: CSCA 1.25 Q14]"
+      },
+      {
+        id: 10,
+        topic: "Sequences: Sequence Identification",
+        question: "Among the four sequences below, the number of arithmetic sequences is ( ).<br>(1) $7,13,19,25$ &nbsp; (2) $2,4,7,11$ &nbsp; (3) $-1,-3,-5,-7$ &nbsp; (4) $2,4,8,16$",
+        options: [
+          "A. $1$",
+          "B. $2$",
+          "C. $3$",
+          "D. $4$"
+        ],
+        correct: 1,
+        explanation: "(1) has $d=6$, and (3) has $d=-2$. Both are arithmetic sequences, so there are $2$. [Source: CSCA 1.25 Q16]"
+      },
+      {
+        id: 11,
+        topic: "Analytic Geometry: Angle of Inclination",
+        question: "If a straight line $l$ has an angle of inclination of $45^\\circ$, and it passes through the point $(0,2)$, then the equation of $l$ is ( ).",
+        options: [
+          "A. $y=2x-2$",
+          "B. $y=x+2$",
+          "C. $y=2x+2$",
+          "D. $y=x-2$"
+        ],
+        correct: 1,
+        explanation: "$m = \\tan 45^\\circ = 1$. With $y$-intercept $(0, 2)$, the line is $y = x + 2$. [Source: CSCA 1.25 Q18]"
+      },
+      {
+        id: 12,
+        topic: "Circles: Center & Radius",
+        question: "If the equation of a circle is $x^2+y^2-4x-3=0$, then the center and radius are given by ( ).",
+        options: [
+          "A. $(0,2)$ and $\\sqrt7$",
+          "B. $(0,2)$ and $7$",
+          "C. $(2,0)$ and $\\sqrt7$",
+          "D. $(2,0)$ and $7$"
+        ],
+        correct: 2,
+        explanation: "Completing the square: $(x-2)^2 + y^2 = 7$. Center is $(2, 0)$ and radius is $\\sqrt{7}$. [Source: CSCA 1.25 Q19]"
+      },
+      {
+        id: 13,
+        topic: "Sequences: Arithmetic Formula",
+        question: "In an arithmetic sequence $\\{a_n\\}$, if $a_2=1$ and $a_4=5$, then the first term $a_1$ and common difference $d$ are ( ) and ( ) respectively.",
+        options: [
+          "A. $-1,2$",
+          "B. $1,-2$",
+          "C. $-1,-2$",
+          "D. $1,2$"
+        ],
+        correct: 0,
+        explanation: "$2d = a_4 - a_2 = 4 \\implies d = 2$. Then $a_1 = a_2 - d = 1 - 2 = -1$. [Source: CSCA 1.25 Q21]"
+      },
+      {
+        id: 14,
+        topic: "Functions: Exponential Properties",
+        question: "About the exponential function $y=a^x$ $(a>0,\\ a\\ne1)$, which of the following statements is incorrect?",
+        options: [
+          "A. The range is $(0,+\\infty)$.",
+          "B. The graph passes through $(0,1)$.",
+          "C. The function is increasing over the domain.",
+          "D. The domain is $\\mathbb R$."
+        ],
+        correct: 2,
+        explanation: "The function is increasing only when $a>1$; for $0<a<1$ it is strictly decreasing. [Source: CSCA 1.25 Q23]"
+      },
+      {
+        id: 15,
+        topic: "Analytic Geometry: Linear Intersection",
+        question: "The intersection of the lines $l_1:3x-y+8=0$ and $l_2:x+2y-9=0$ has coordinates ( ).",
+        options: [
+          "A. $(-5,1)$",
+          "B. $(1,-5)$",
+          "C. $(5,-1)$",
+          "D. $(-1,5)$"
+        ],
+        correct: 3,
+        explanation: "From $l_1$, $y = 3x+8$. Substitute into $l_2$: $x + 2(3x+8) - 9 = 0 \\implies 7x = -7 \\implies x = -1, y = 5$. [Source: CSCA 1.25 Q25]"
+      },
+      {
+        id: 16,
+        topic: "Conics: Hyperbola Focal Distance",
+        question: "Given that the equation of a hyperbola is $\\dfrac{x^2}{64}-\\dfrac{y^2}{16}=1$, which of the following statements is correct?",
+        options: [
+          "A. The focal distance is $8\\sqrt5$.",
+          "B. The semi-major axis has length $4$.",
+          "C. The eccentricity of the hyperbola is $\\sqrt5$.",
+          "D. The semi-minor axis has length $8$."
+        ],
+        correct: 0,
+        explanation: "$a^2 = 64, b^2 = 16 \\implies c = \\sqrt{64+16} = \\sqrt{80} = 4\\sqrt{5}$. Focal distance $2c = 8\\sqrt{5}$. [Source: CSCA 1.25 Q26]"
+      },
+      {
+        id: 17,
+        topic: "Circles: Standard Equation",
+        question: "A circle has center at $(-3,2)$ and radius $4$. Then the equation of the circle is ( ).",
+        options: [
+          "A. $(x+3)^2+(y-2)^2=4$",
+          "B. $(x-3)^2+(y+2)^2=4$",
+          "C. $(x-3)^2+(y+2)^2=16$",
+          "D. $(x+3)^2+(y-2)^2=16$"
+        ],
+        correct: 3,
+        explanation: "Standard form: $(x-(-3))^2 + (y-2)^2 = 4^2 \\implies (x+3)^2 + (y-2)^2 = 16$. [Source: CSCA 1.25 Q28]"
+      },
+      {
+        id: 18,
+        topic: "Trigonometry: Sine Function Properties",
+        question: "Given the sine function $y=\\sin x$, which of the following statements is incorrect?",
+        options: [
+          "A. The maximum and minimum values are $1$ and $-1$ respectively.",
+          "B. The function is periodic.",
+          "C. The function is even.",
+          "D. The domain is $\\mathbb R$."
+        ],
+        correct: 2,
+        explanation: "$\\sin x$ is an odd function because $\\sin(-x) = -\\sin x$, not an even function. [Source: CSCA 1.25 Q30]"
+      },
+      {
+        id: 19,
+        topic: "Conics: Parabola Focus Distance",
+        question: "Let the focus of the parabola $y^2=4x$ be $F$. Suppose that a point $P$ is on the parabola, and the horizontal coordinate of $P$ is $4$. Then $|PF|=$ ( ).",
+        options: [
+          "A. $2$",
+          "B. $3$",
+          "C. $4$",
+          "D. $5$"
+        ],
+        correct: 3,
+        explanation: "By focal radius property: $|PF| = x_P + p/2 = 4 + 1 = 5$. [Source: CSCA 1.25 Q31]"
+      },
+      {
+        id: 20,
+        topic: "Sequences: Alternating Fractions",
+        question: "The general formula for the sequence $-\\frac15,\\frac17,-\\frac19,\\frac1{11},\\ldots$ is $a_n=$ ( ).",
+        options: [
+          "A. $\\frac{(-1)^n-1}{3n+2}$",
+          "B. $\\frac{(-1)^n}{2n+3}$",
+          "C. $\\frac{(-1)^n-1}{2n+3}$",
+          "D. $\\frac{(-1)^n}{3n+2}$"
+        ],
+        correct: 1,
+        explanation: "For $n=1$, numerator is $(-1)^1 = -1$ and denominator is $2(1)+3 = 5$, giving $(-1)^n/(2n+3)$. [Source: CSCA 1.25 Q40]"
+      },
+      {
+        id: 21,
+        topic: "Functions: Logarithmic Fixed Point",
+        question: "If the graph of $f(x)=2+\\log_a(x-3)$ $(a>0,\\ a\\ne1)$ passes through a fixed point $P$, then the coordinates of $P$ are ( ).",
+        options: [
+          "A. $(3,1)$",
+          "B. $(3,0)$",
+          "C. $(4,0)$",
+          "D. $(4,2)$"
+        ],
+        correct: 3,
+        explanation: "Set $x - 3 = 1 \\implies x = 4$. Then $\\log_a 1 = 0 \\implies f(4) = 2 + 0 = 2$. Point is $(4, 2)$. [Source: CSCA 1.25 Q41]"
+      },
+      {
+        id: 22,
+        topic: "Conics: Ellipse Definition",
+        question: "Suppose that the foci of the ellipse $\\dfrac{x^2}{4}+\\dfrac{y^2}{2}=1$ are $F_1,F_2$, and the point $P$ is on the ellipse. Then $|PF_1|+|PF_2|=$ ( ).",
+        options: [
+          "A. $2$",
+          "B. $4$",
+          "C. $8$",
+          "D. $6$"
+        ],
+        correct: 1,
+        explanation: "$a^2 = 4 \\implies a = 2$. By definition of an ellipse, $|PF_1| + |PF_2| = 2a = 4$. [Source: CSCA 1.25 Q43]"
+      },
+      {
+        id: 23,
+        topic: "Probability: Independent Selections",
+        question: "To understand the usage of running apps among high school and college students, 200 high school students and 80 college students were surveyed:<br><br><strong>High school:</strong> App A = 80, App B = 40, App C = 60, App D = 20.<br><strong>College:</strong> App A = 30, App B = 20, App C = 20, App D = 10.<br><br>If one person is randomly selected from each group, what is the probability that their favorite apps are different?",
+        options: [
+          "A. $\\frac{23}{80}$",
+          "B. $\\frac{57}{80}$",
+          "C. $\\frac9{20}$",
+          "D. $\\frac{11}{20}$"
+        ],
+        correct: 1,
+        explanation: "$P(\\text{same}) = (80/200)(30/80) + (40/200)(20/80) + (60/200)(20/80) + (20/200)(10/80) = 23/80$. Thus $P(\\text{different}) = 1 - 23/80 = 57/80$. [Source: CSCA 1.25 Q48]"
+      },
+      {
+        id: 24,
+        topic: "Conics: Directrix of Parabola",
+        question: "The equation of the directrix of the parabola $y^2=-x$ is ( ).",
+        options: [
+          "A. $x=\\frac14$",
+          "B. $x=-\\frac14$",
+          "C. $x=-\\frac12$",
+          "D. $x=\\frac12$"
+        ],
+        correct: 0,
+        explanation: "$y^2 = -4px \\implies 4p = 1 \\implies p = 1/4$. Directrix is $x = p = 1/4$. [Source: CSCA 1.25 Q42]"
+      },
+      {
+        id: 25,
+        topic: "Sets: Boundary Membership",
+        question: "Let $A=\\{x\\mid -2<x\\le 3\\}$ be a set. Which of the following statements is correct?",
+        options: [
+          "A. $2\\notin A$",
+          "B. $-3\\in A$",
+          "C. $3\\in A$",
+          "D. $-2\\in A$"
+        ],
+        correct: 2,
+        explanation: "The right endpoint $3$ is included with $\\le$, so $3\\in A$. [Source: CSCA 3.15 Q1]"
+      },
+      {
+        id: 26,
+        topic: "Sets: Interval Overlap",
+        question: "Let $M=\\{x\\mid -5\\le x<2\\}$ and $N=\\{x\\mid -4\\le x<2\\}$ be two sets. Then $M\\cap N=$ ( ).",
+        options: [
+          "A. $(-4,2]$",
+          "B. $(-5,2)$",
+          "C. $[-4,2)$",
+          "D. $[-5,2]$"
+        ],
+        correct: 2,
+        explanation: "The overlapping region is $[-4, 2)$. [Source: CSCA 3.15 Q2]"
+      },
+      {
+        id: 27,
+        topic: "Functions: Logarithmic Parity",
+        question: "Over its domain, the function $f(x)=\\ln(x^2)$ is ( ).",
+        options: [
+          "A. odd",
+          "B. uncertain about its parity",
+          "C. neither odd nor even",
+          "D. even"
+        ],
+        correct: 3,
+        explanation: "Domain is $x \\ne 0$. $f(-x) = \\ln((-x)^2) = \\ln(x^2) = f(x)$, hence it is even. [Source: CSCA 3.15 Q7]"
+      },
+      {
+        id: 28,
+        topic: "Functions: Rational Inverse",
+        question: "The inverse function of $y=\\dfrac{3x-2}{2x+1}$ is ( ).",
+        options: [
+          "A. $y=\\frac{2x-3}{x+2}$",
+          "B. $y=-\\frac{x+2}{2x-3}$",
+          "C. $y=-\\frac{2x-3}{x+2}$",
+          "D. $y=\\frac{x+2}{2x-3}$"
+        ],
+        correct: 1,
+        explanation: "$x(2y+1) = 3y-2 \\implies 2xy + x = 3y - 2 \\implies y(3 - 2x) = x + 2 \\implies y = -\\dfrac{x+2}{2x-3}$. [Source: CSCA 3.15 Q8]"
+      },
+      {
+        id: 29,
+        topic: "Trigonometry: Monotonic Intervals",
+        question: "The function $f(x)=\\sin x$ is monotonic increasing over ( ).",
+        options: [
+          "A. $[-\\pi,\\pi]$",
+          "B. $[0,\\pi]$",
+          "C. $(-\\infty,+\\infty)$",
+          "D. $[-\\frac\\pi2,\\frac\\pi2]$"
+        ],
+        correct: 3,
+        explanation: "$\\sin x$ is strictly increasing on $[-\\pi/2, \\pi/2]$. [Source: CSCA 3.15 Q9]"
+      },
+      {
+        id: 30,
+        topic: "Sequences: Arithmetic Terms",
+        question: "Let $\\{a_n\\}$ be an arithmetic sequence, with $a_1=2$ and $d=3$. Then $a_{100}=$ ( ).",
+        options: [
+          "A. $298$",
+          "B. $302$",
+          "C. $305$",
+          "D. $299$"
+        ],
+        correct: 3,
+        explanation: "$a_{100} = 2 + 99(3) = 299$. [Source: CSCA 3.15 Q10]"
+      },
+      {
+        id: 31,
+        topic: "Inequalities: Rational Roots",
+        question: "The solution set of the inequality $\\dfrac{2x-3}{3x-4}<0$ is ( ).",
+        options: [
+          "A. $[\\frac43,\\frac32]$",
+          "B. $(\\frac43,\\frac32)$",
+          "C. $(\\frac43,\\frac32]$",
+          "D. $[\\frac43,\\frac32)$"
+        ],
+        correct: 1,
+        explanation: "Roots are $4/3$ and $3/2$. Strict negativity occurs strictly between the roots: $(4/3, 3/2)$. [Source: CSCA 3.15 Q11]"
+      },
+      {
+        id: 32,
+        topic: "Sequences: Geometric Mean",
+        question: "If $3$ and $12$ are the first and third terms of a geometric sequence, then the second term is ( ).",
+        options: [
+          "A. $\\pm6$",
+          "B. $\\pm4$",
+          "C. $\\pm10$",
+          "D. $\\pm8$"
+        ],
+        correct: 0,
+        explanation: "$b^2 = ac = 3 \\times 12 = 36 \\implies b = \\pm 6$. [Source: CSCA 3.15 Q12]"
+      },
+      {
+        id: 33,
+        topic: "Analytic Geometry: Linear Inclination",
+        question: "The angle of inclination of the line $x+\\sqrt3y-2=0$ is ( ).",
+        options: [
+          "A. $60^\\circ$",
+          "B. $150^\\circ$",
+          "C. $120^\\circ$",
+          "D. $30^\\circ$"
+        ],
+        correct: 1,
+        explanation: "Slope $m = -1/\\sqrt{3}$. Angle $\\alpha = 180^\\circ - 30^\\circ = 150^\\circ$. [Source: CSCA 3.15 Q13]"
+      },
+      {
+        id: 34,
+        topic: "Sequences: Geometric Term",
+        question: "In a geometric sequence $\\{a_n\\}$, if $a_1=4$ and $a_4=32$, then $a_3$ is ( ).",
+        options: [
+          "A. $8$",
+          "B. $-8$",
+          "C. $16$",
+          "D. $-16$"
+        ],
+        correct: 2,
+        explanation: "$q^3 = a_4/a_1 = 8 \\implies q = 2$. Then $a_3 = a_1 q^2 = 4(4) = 16$. [Source: CSCA 3.15 Q15]"
+      },
+      {
+        id: 35,
+        topic: "Analytic Geometry: Distance Formula",
+        question: "Let $A(-2,-1)$ and $B(a,3)$ be two points, and $|AB|=5$. Then the value of $a$ is ( ).",
+        options: [
+          "A. $1$ or $-5$",
+          "B. $-1$ or $5$",
+          "C. $\\pm5$",
+          "D. $\\pm1$"
+        ],
+        correct: 0,
+        explanation: "$(a+2)^2 + (3-(-1))^2 = 25 \\implies (a+2)^2 + 16 = 25 \\implies (a+2)^2 = 9 \\implies a+2 = \\pm 3 \\implies a = 1$ or $-5$. [Source: CSCA 3.15 Q17]"
+      },
+      {
+        id: 36,
+        topic: "Analytic Geometry: Line Through Points",
+        question: "Suppose that a line $l$ passes through two points $M(0,-1)$ and $N(-2,0)$. Then the equation of $l$ is ( ).",
+        options: [
+          "A. $x+y+2=0$",
+          "B. $x+2y+2=0$",
+          "C. $2x+y+2=0$",
+          "D. $2x+y+1=0$"
+        ],
+        correct: 1,
+        explanation: "Slope $m = (0 - (-1))/(-2 - 0) = -1/2$. Equation: $y + 1 = -1/2(x) \\implies x + 2y + 2 = 0$. [Source: CSCA 3.15 Q18]"
+      },
+      {
+        id: 37,
+        topic: "Circles: Center & Equation",
+        question: "A circle centered at $A(-3,2)$, with radius $3$ has equation ( ).",
+        options: [
+          "A. $(x+3)^2+(y-2)^2=3$",
+          "B. $(x+3)^2+(y-2)^2=9$",
+          "C. $(x-3)^2+(y+2)^2=9$",
+          "D. $(x-3)^2+(y+2)^2=3$"
+        ],
+        correct: 1,
+        explanation: "$(x - (-3))^2 + (y - 2)^2 = 3^2 \\implies (x+3)^2 + (y-2)^2 = 9$. [Source: CSCA 3.15 Q20]"
+      },
+      {
+        id: 38,
+        topic: "Circles: Radius 4 Standard Form",
+        question: "A circle has center at $(-3,2)$ and radius $4$. Then the equation of the circle is ( ).",
+        options: [
+          "A. $(x+3)^2+(y-2)^2=16$",
+          "B. $(x-3)^2+(y+2)^2=16$",
+          "C. $(x-3)^2+(y+2)^2=4$",
+          "D. $(x+3)^2+(y-2)^2=4$"
+        ],
+        correct: 0,
+        explanation: "$(x+3)^2 + (y-2)^2 = 4^2 = 16$. [Source: CSCA 3.15 Q24]"
+      },
+      {
+        id: 39,
+        topic: "Functions: Exponential Growth",
+        question: "If an exponential function $y=a^x$ is monotonic increasing on $\\mathbb R$, then the range of $a$ is ( ).",
+        options: [
+          "A. $a<0$ or $a>1$",
+          "B. $a>1$",
+          "C. $0<a<1$",
+          "D. $a>0$"
+        ],
+        correct: 1,
+        explanation: "Exponential growth requires base $a > 1$. [Source: CSCA 3.15 Q25]"
+      },
+      {
+        id: 40,
+        topic: "Conics: General Hyperbola Form",
+        question: "Let $mx^2+ny^2=1$ be a hyperbola. Then $m,n$ satisfy ( ).",
+        options: [
+          "A. $mn<1$",
+          "B. $mn>1$",
+          "C. $mn>0$",
+          "D. $mn<0$"
+        ],
+        correct: 3,
+        explanation: "The coefficients of $x^2$ and $y^2$ must have opposite signs, so $mn < 0$. [Source: CSCA 3.15 Q28]"
+      },
+      {
+        id: 41,
+        topic: "Trigonometry: Period of Cosine",
+        question: "The minimum positive period of the function $f(x)=3\\cos\\left(4x-\\dfrac{\\pi}{3}\\right)$ is ( ).",
+        options: [
+          "A. $\\frac\\pi3$",
+          "B. $\\frac\\pi2$",
+          "C. $\\frac\\pi4$",
+          "D. $2\\pi$"
+        ],
+        correct: 1,
+        explanation: "$T = 2\\pi/|\\omega| = 2\\pi/4 = \\pi/2$. [Source: CSCA 3.15 Q31]"
+      },
+      {
+        id: 42,
+        topic: "Conics: Parabola Vertical Directrix",
+        question: "The equation of the directrix of the parabola $y=-\\dfrac{1}{4}x^2$ is ( ).",
+        options: [
+          "A. $y=1$",
+          "B. $y=\\frac1{16}$",
+          "C. $x=1$",
+          "D. $x=\\frac1{16}$"
+        ],
+        correct: 0,
+        explanation: "$x^2 = -4y \\implies 4p = 4 \\implies p = 1$. The parabola opens downwards, so directrix is $y = p = 1$. [Source: CSCA 3.15 Q32]"
+      },
+      {
+        id: 43,
+        topic: "Trig Identities: Half-Angle Evaluation",
+        question: "Suppose that $\\cos\\alpha=-\\dfrac{1}{2}$ and $\\alpha\\in\\left(\\dfrac{\\pi}{2},\\pi\\right)$. Then the value of $\\sin\\dfrac{\\alpha}{2}$ is ( ).",
+        options: [
+          "A. $\\frac12$",
+          "B. $\\frac{\\sqrt3}{2}$",
+          "C. $-\\frac{\\sqrt3}{2}$",
+          "D. $-\\frac12$"
+        ],
+        correct: 1,
+        explanation: "$\\alpha/2 \\in (\\pi/4, \\pi/2)$ is in Q I where sine is positive: $\\sqrt{(1 - (-1/2))/2} = \\sqrt{3}/2$. [Source: CSCA 3.15 Q34]"
+      },
+      {
+        id: 44,
+        topic: "Functions: Bounded Modulus Range",
+        question: "The range of the function $f(x)=\\dfrac{1}{1+|x|}$ $(x\\in\\mathbb R)$ is ( ).",
+        options: [
+          "A. $(0,1]$",
+          "B. $[0,1]$",
+          "C. $[0,1)$",
+          "D. $(0,1)$"
+        ],
+        correct: 0,
+        explanation: "Since $|x| \\ge 0$, denominator $\\ge 1$. As $|x| \\to \\infty$, $f(x) \\to 0$ without reaching 0. Maximum is $f(0) = 1$. Range is $(0, 1]$. [Source: CSCA 3.15 Q36]"
+      },
+      {
+        id: 45,
+        topic: "Conics: Parabola Directrix",
+        question: "The equation of the directrix of the parabola $y^2=-x$ is ( ).",
+        options: [
+          "A. $x=\\frac14$",
+          "B. $x=\\frac12$",
+          "C. $x=-\\frac14$",
+          "D. $x=-\\frac12$"
+        ],
+        correct: 0,
+        explanation: "$4p = 1 \\implies p = 1/4$. Directrix is $x = 1/4$. [Source: CSCA 3.15 Q37]"
+      },
+      {
+        id: 46,
+        topic: "Functions: Logarithmic Inequality",
+        question: "Let $f(x)=\\log_5(2x+1)$. Then the solution set of $f(x)\\ge0$ is ( ).",
+        options: [
+          "A. $\\{x\\mid x\\ge1\\}$",
+          "B. $\\{x\\mid x>0\\}$",
+          "C. $\\{x\\mid x>1\\}$",
+          "D. $\\{x\\mid x\\ge0\\}$"
+        ],
+        correct: 3,
+        explanation: "Base $5 > 1 \\implies 2x+1 \\ge 5^0 = 1 \\implies 2x \\ge 0 \\implies x \\ge 0$. [Source: CSCA 3.15 Q42]"
+      },
+      {
+        id: 47,
+        topic: "Conics: Ellipse Horizontal Major Axis",
+        question: "Suppose that the major axis of an ellipse is $10$, and the two foci are located at $(3,0)$ and $(-3,0)$. The equation of the ellipse is ( ).",
+        options: [
+          "A. $\\frac{x^2}{9}+\\frac{y^2}{25}=1$",
+          "B. $\\frac{x^2}{25}+\\frac{y^2}{16}=1$",
+          "C. $\\frac{x^2}{16}+\\frac{y^2}{25}=1$",
+          "D. $\\frac{x^2}{16}+\\frac{y^2}{9}=1$"
+        ],
+        correct: 1,
+        explanation: "$2a = 10 \\implies a = 5$. $c = 3 \\implies b^2 = a^2 - c^2 = 25 - 9 = 16$. Foci on $x$-axis gives $x^2/25 + y^2/16 = 1$. [Source: CSCA 3.15 Q43]"
+      },
+      {
+        id: 48,
+        topic: "Probability: Combinatorics & Labels",
+        question: "A bag contains five balls: two red balls labeled 1 and 2, two black balls labeled 1 and 2, and one white ball labeled 1. Two balls are drawn randomly. The probability that the balls have different colors and the probability that at least one ball is labeled 1 are ( ) and ( ) respectively.",
+        options: [
+          "A. $\\frac45,\\frac7{10}$",
+          "B. $\\frac35,\\frac7{10}$",
+          "C. $\\frac35,\\frac9{10}$",
+          "D. $\\frac45,\\frac9{10}$"
+        ],
+        correct: 3,
+        explanation: "Total pairs $\\binom{5}{2} = 10$. Same color pairs = 2 (red-pair, black-pair). Different colors = $8/10 = 4/5$. Pairs with no '1' = only $\\{R_2, B_2\\}$, so at least one '1' = $1 - 1/10 = 9/10$. [Source: CSCA 3.15 Q48]"
+      }
+    ];
+
+    /* ==========================================================================
+       2. EXAM APPLICATION STATE
+       ========================================================================== */
+    const RESULTS_API_URL = 'https://csca-results.csca-test.workers.dev/submit';
+    const PENDING_KEY = 'csca_final_assessment_48q';
+
+    let studentInfo = { name: '', email: '' };
+    let entryTimestamp = null;
+    let exitTimestamp = null;
+    let submissionId = null;
+    let currentQIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let markedQuestions = new Array(questions.length).fill(false);
+    let examDurationSeconds = 60 * 60; // 60 minutes
+    let timeRemaining = examDurationSeconds;
+    let timerInterval = null;
+
+    /* ==========================================================================
+       3. BRIGHTER, AIRY HERO CANVAS PARTICLES
+       ========================================================================== */
+    (function initEntryCanvas() {
+      const canvas = document.getElementById('entry-bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let mouse = { x: null, y: null, radius: 160 };
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      const nodes = [];
+      const nodeCount = Math.min(Math.floor(window.innerWidth / 24), 50);
+
+      class GeometricNode {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.vy = (Math.random() - 0.5) * 0.8;
+          this.radius = Math.random() * 12 + 5;
+          this.baseRadius = this.radius;
+          this.color = ['#38BDF8', '#34D399', '#FB923C', '#A78BFA'][Math.floor(Math.random() * 4)];
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0) this.x = width;
+          if (this.x > width) this.x = 0;
+          if (this.y < 0) this.y = height;
+          if (this.y > height) this.y = 0;
+
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius && this.radius < this.baseRadius * 2) {
+              this.radius += 0.8;
+            } else if (this.radius > this.baseRadius) {
+              this.radius -= 0.3;
+            }
+          } else if (this.radius > this.baseRadius) {
+            this.radius -= 0.3;
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = this.color;
+          ctx.globalAlpha = 0.55;
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = 0.9;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < nodeCount; i++) nodes.push(new GeometricNode());
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < nodes.length; i++) {
+          nodes[i].update();
+          nodes[i].draw();
+          for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 135) {
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.strokeStyle = '#38BDF8';
+              ctx.globalAlpha = (1 - dist / 135) * 0.25;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+
+    /* ============ CSCA.AI LOGO TRANSITION OVERLAY ============ */
+    function triggerScreenTransition(targetScreenId, statusMessage, onComplete) {
+      const overlay = document.getElementById('transition-overlay');
+      const text = document.getElementById('transition-status-text');
+      text.textContent = statusMessage;
+      overlay.classList.add('active');
+
+      setTimeout(() => {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('is-active'));
+        document.getElementById(targetScreenId).classList.add('is-active');
+
+        if (typeof onComplete === 'function') onComplete();
+
+        setTimeout(() => {
+          overlay.classList.remove('active');
+        }, 350);
+      }, 900);
+    }
+
+    /* ============ START EXAM HANDLER ============ */
+    function handleStartExam(e) {
+      e.preventDefault();
+      const studentSelect = document.getElementById('student-select');
+      const emailInput = document.getElementById('student-email');
+
+      if (!studentSelect.value) return;
+
+      studentInfo.name = studentSelect.value;
+      studentInfo.email = emailInput.value.trim() || 'candidate@csca.org';
+      entryTimestamp = new Date();
+      submissionId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'CSCA-FIN-' + Date.now();
+
+      document.getElementById('display-student-name').textContent = studentInfo.name;
+      document.getElementById('display-student-email').textContent = studentInfo.email;
+
+      const initials = studentInfo.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('student-avatar').textContent = initials;
+
+      buildQuestionGrid();
+      loadQuestion(0);
+
+      triggerScreenTransition('screen-exam', 'PREPARING FINAL EXAMINATION...', () => {
+        startTimer();
+        if (window.MathJax) MathJax.typesetPromise();
+      });
+    }
+
+    function buildQuestionGrid() {
+      const grid = document.getElementById('q-grid');
+      grid.innerHTML = '';
+      for (let i = 0; i < questions.length; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'q-cell';
+        cell.textContent = i + 1;
+        cell.id = `q-cell-${i}`;
+        cell.onclick = () => loadQuestion(i);
+        grid.appendChild(cell);
+      }
+      updateGridState();
+    }
+
+    function updateGridState() {
+      let answeredCount = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const cell = document.getElementById(`q-cell-${i}`);
+        if (!cell) continue;
+        cell.className = 'q-cell';
+        if (i === currentQIndex) cell.classList.add('current');
+        if (userAnswers[i] !== null) {
+          cell.classList.add('answered');
+          answeredCount++;
+        }
+        if (markedQuestions[i]) {
+          cell.classList.add('marked');
+        }
+      }
+      document.getElementById('progress-count').textContent = `${answeredCount} / ${questions.length} Answered`;
+    }
+
+    function loadQuestion(index) {
+      currentQIndex = index;
+      const q = questions[index];
+
+      document.getElementById('question-counter').textContent = `Question ${index + 1} of ${questions.length}`;
+      document.getElementById('question-topic').textContent = q.topic;
+      document.getElementById('question-text').innerHTML = q.question;
+
+      const markBtn = document.getElementById('btn-mark');
+      markBtn.style.color = markedQuestions[index] ? 'var(--brand-orange)' : 'var(--ink-soft)';
+      markBtn.textContent = markedQuestions[index] ? '🔖 Marked' : '🔖 Mark for Review';
+
+      const list = document.getElementById('options-list');
+      list.innerHTML = '';
+
+      q.options.forEach((optText, optIdx) => {
+        const item = document.createElement('div');
+        item.className = 'option-item' + (userAnswers[index] === optIdx ? ' selected' : '');
+        item.onclick = () => selectOption(optIdx);
+        item.innerHTML = `
+          <div class="option-radio"></div>
+          <div>${optText}</div>
+        `;
+        list.appendChild(item);
+      });
+
+      document.getElementById('btn-prev').disabled = (index === 0);
+      document.getElementById('btn-next').disabled = (index === questions.length - 1);
+
+      updateGridState();
+
+      if (window.MathJax) {
+        MathJax.typesetPromise([document.getElementById('question-text'), document.getElementById('options-list')]);
+      }
+    }
+
+    function selectOption(optIdx) {
+      userAnswers[currentQIndex] = optIdx;
+      loadQuestion(currentQIndex);
+    }
+
+    function toggleMarkQuestion() {
+      markedQuestions[currentQIndex] = !markedQuestions[currentQIndex];
+      loadQuestion(currentQIndex);
+    }
+
+    function navigateQuestion(delta) {
+      const target = currentQIndex + delta;
+      if (target >= 0 && target < questions.length) {
+        loadQuestion(target);
+      }
+    }
+
+    /* ============ BLUE TIMER & CONTROL ============ */
+    function startTimer() {
+      timeRemaining = examDurationSeconds;
+      const display = document.getElementById('timer-display');
+      const track = document.getElementById('timer-track');
+      const fill = document.getElementById('timer-fill');
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const mins = Math.floor(timeRemaining / 60);
+        const secs = timeRemaining % 60;
+        display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+        const pct = (timeRemaining / examDurationSeconds) * 100;
+        fill.style.width = `${pct}%`;
+
+        if (timeRemaining <= 300) {
+          display.classList.add('critical');
+          track.classList.add('critical');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          executeFinalSubmission();
+        }
+      }, 1000);
+    }
+
+    /* ============ IN-APP SUBMISSION SHEET ============ */
+    function openSubmitToast() {
+      const unanswered = userAnswers.filter(a => a === null).length;
+      const warningText = document.getElementById('submit-warning-text');
+      if (unanswered > 0) {
+        warningText.textContent = `You have ${unanswered} unanswered question(s). Ready to conclude your final examination?`;
+      } else {
+        warningText.textContent = `You have answered all 48 questions! Ready to calculate your final score?`;
+      }
+      document.getElementById('submit-toast-backdrop').classList.add('is-open');
+    }
+
+    function closeSubmitToast() {
+      document.getElementById('submit-toast-backdrop').classList.remove('is-open');
+    }
+
+    function executeFinalSubmission() {
+      closeSubmitToast();
+      clearInterval(timerInterval);
+      exitTimestamp = new Date();
+
+      let correctCount = 0;
+      userAnswers.forEach((ans, idx) => {
+        if (ans === questions[idx].correct) correctCount++;
+      });
+
+      const totalPct = Math.round((correctCount / questions.length) * 100);
+
+      // Simplified 3-Tier Classification
+      let tierTitle = "";
+      let tierClass = "";
+      if (totalPct >= 60) {
+        tierTitle = "Good score";
+        tierClass = "tier-good";
+      } else if (totalPct >= 40) {
+        tierTitle = "Average score";
+        tierClass = "tier-average";
+      } else {
+        tierTitle = "Need Improvement";
+        tierClass = "tier-poor";
+      }
+
+      // Update Outro View
+      document.getElementById('outro-student-name').textContent = studentInfo.name;
+      document.getElementById('outro-student-email').textContent = studentInfo.email;
+      document.getElementById('stat-score').textContent = `${correctCount} / ${questions.length}`;
+      document.getElementById('stat-pct').textContent = `${totalPct}%`;
+      document.getElementById('stat-grade').textContent = tierTitle;
+
+      const spentSecs = examDurationSeconds - timeRemaining;
+      const spentMins = Math.floor(spentSecs / 60);
+      const spentSecRem = spentSecs % 60;
+      const spentString = `${spentMins}m ${spentSecRem}s`;
+      document.getElementById('stat-time').textContent = spentString;
+
+      const badge = document.getElementById('score-badge');
+      badge.className = `score-badge ${tierClass}`;
+      badge.textContent = tierTitle;
+
+      // Populate Report Card (NO UUID ID string displayed)
+      document.getElementById('rep-name').textContent = studentInfo.name;
+      document.getElementById('rep-email').textContent = studentInfo.email;
+      document.getElementById('rep-score-tier').textContent = `${correctCount} / ${questions.length} (${totalPct}%) — ${tierTitle}`;
+      document.getElementById('rep-time').textContent = `${spentString} (Allotted 60m)`;
+      document.getElementById('rep-date').textContent = new Date().toLocaleDateString('en-CA');
+
+      buildTopicBreakdownTable();
+      buildReviewList();
+
+      triggerScreenTransition('screen-outro', 'EVALUATING FINAL RESULTS...', () => {
+        if (window.MathJax) MathJax.typesetPromise([document.getElementById('review-list')]);
+      });
+
+      // Submit to Cloudflare Worker with 'Final Examination' in name
+      const wrongQuestions = [];
+      userAnswers.forEach((ans, idx) => {
+        if (ans !== questions[idx].correct) wrongQuestions.push(idx + 1);
+      });
+
+      submitResult({
+        id: submissionId,
+        username: `${studentInfo.name} (Final Examination)`,
+        score: correctCount,
+        total: questions.length,
+        percent: totalPct,
+        wrongQuestions: wrongQuestions,
+        startedAt: entryTimestamp ? entryTimestamp.toISOString() : null,
+        submittedAt: exitTimestamp.toISOString()
+      });
+    }
+
+    function buildTopicBreakdownTable() {
+      const topicStats = {};
+      questions.forEach((q, idx) => {
+        const top = q.topic.split(':')[0].trim();
+        if (!topicStats[top]) topicStats[top] = { total: 0, correct: 0 };
+        topicStats[top].total++;
+        if (userAnswers[idx] === q.correct) topicStats[top].correct++;
+      });
+
+      const tbody = document.getElementById('report-breakdown-rows');
+      tbody.innerHTML = '';
+      for (const [topName, stat] of Object.entries(topicStats)) {
+        const pct = Math.round((stat.correct / stat.total) * 100);
+        let rating = "Need Improvement";
+        if (pct >= 60) rating = "Good score";
+        else if (pct >= 40) rating = "Average score";
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${topName}</strong></td>
+          <td>${stat.correct} / ${stat.total}</td>
+          <td><span style="font-family:var(--font-mono); font-weight:700;">${pct}%</span></td>
+          <td><span style="font-weight:700; color:${pct >= 60 ? 'var(--primary-dark)' : (pct >= 40 ? '#D97706' : 'var(--crimson)')};">${rating}</span></td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function buildReviewList() {
+      const list = document.getElementById('review-list');
+      list.innerHTML = '';
+
+      questions.forEach((q, idx) => {
+        const uAns = userAnswers[idx];
+        const isCorr = uAns === q.correct;
+        const isSkip = uAns === null;
+
+        const item = document.createElement('div');
+        item.className = 'review-item ' + (isSkip ? 'is-skipped' : (isCorr ? 'is-correct' : 'is-incorrect'));
+
+        const userText = isSkip ? '<em>Skipped / Not Answered</em>' : q.options[uAns];
+        const correctText = q.options[q.correct];
+
+        item.innerHTML = `
+          <div class="review-q-num">Question ${idx + 1} • ${q.topic}</div>
+          <div class="review-q-text">${q.question}</div>
+          <div class="review-ans user-ans">Candidate Selection: <span>${userText}</span></div>
+          ${!isCorr ? `<div class="review-ans correct-ans">Official Answer: <span>${correctText}</span></div>` : ''}
+          <div class="review-exp"><strong>Pedagogical Solution:</strong> ${q.explanation}</div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    /* ============ MODAL CONTROLS ============ */
+    function openReportModal() {
+      document.getElementById('printable-report-modal').classList.add('is-open');
+    }
+    function closeReportModal() {
+      document.getElementById('printable-report-modal').classList.remove('is-open');
+    }
+
+    /* ============ CLOUDFLARE SYNC WITH FAILOVER ============ */
+    async function postResult(data) {
+      const res = await fetch(RESULTS_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Cloudflare responded ' + res.status);
+    }
+
+    async function submitResult(data) {
+      const statusEl = document.getElementById('export-status');
+      if (statusEl) statusEl.textContent = 'Syncing report with CSCA assessment cloud...';
+
+      try { localStorage.setItem(PENDING_KEY, JSON.stringify(data)); } catch (e) {}
+
+      const delays = [0, 1500, 3500];
+      for (const d of delays) {
+        if (d) await new Promise(r => setTimeout(r, d));
+        try {
+          await postResult(data);
+          try { localStorage.removeItem(PENDING_KEY); } catch (e) {}
+          if (statusEl) statusEl.textContent = '✅ Final Examination records successfully logged.';
+          return;
+        } catch (err) {
+          console.warn('Sync attempt failed:', err);
+        }
+      }
+      if (statusEl) statusEl.textContent = '⚠️ Result saved locally. Cloud will sync on reconnection.';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const cached = localStorage.getItem(PENDING_KEY);
+        if (cached) postResult(JSON.parse(cached)).then(() => localStorage.removeItem(PENDING_KEY)).catch(() => {});
+      } catch (e) {}
+    });
+
+    function restartExam() {
+      userAnswers.fill(null);
+      markedQuestions.fill(false);
+      currentQIndex = 0;
+      entryTimestamp = null;
+      exitTimestamp = null;
+      submissionId = null;
+      triggerScreenTransition('screen-entry', 'RESETTING WORKSPACE...', () => {});
+    }
+  </script>
+</body>
+</html>
